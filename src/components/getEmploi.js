@@ -18,18 +18,29 @@ export default function GetEmploi (){
     return(
         <div className="container">
             <div className="row justify-content-center">
-                <form>
-                    <select onChange = {(e) => { setGroupeChoisis(e.target.value)}}>
-                    {groupeList.map((g) =>(
-                        <option key={g.codeGroupe} value={g.codeGroupe}> {g.codeGroupe} </option>
-                    ))}
-                    </select>
-                </form>
+                <center>
+                    <form>
+                        <select className="user-select w-50" onChange = {(e) => { setGroupeChoisis(e.target.value)}}>
+                        {groupeList.map((g) =>(
+                            <option key={g.codeGroupe} value={g.codeGroupe}> {g.codeGroupe} </option>
+                        ))}
+                        </select>
+                    </form>
+                </center>
+                
             </div>
             <div className="row justify-content-center">
             <table className="table table-bordered table-light" id="timeTable">
             
             <thead>
+                <tr>
+                    <td colSpan={4}>Année de formation : 2022-2023</td>
+                    <td>Niveau</td>
+                </tr>
+                <tr>
+                    <td colSpan={3}>groupe : {groupeChoisis}</td>
+                    <td colSpan={2}>Masse Horaire / Semaine : </td>
+                </tr>
                 <tr>
                     <th>  </th>
                     <th> <span className="start">08:30</span> <span className="end">10:50</span>  </th>
@@ -39,6 +50,7 @@ export default function GetEmploi (){
                 </tr>
             </thead>
             <tbody>
+                
                 <tr>
                     <td>Lundi</td>
                     <td id="l1"> <GetT1 groupe={groupeChoisis} jours="lundi" periods={1} /> </td>
