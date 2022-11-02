@@ -495,3 +495,6 @@ td[id]{
   background: transparent;
 }
 
+#timeTable,#timeTable th,#timeTable td {
+  border: 1px solid black;
+}

@@ -1,6 +1,7 @@
-import {useState , useEffect} from "react";
+import {useState , useEffect , useRef} from "react";
 import Axios from "axios";
 import GetT1 from "./tabletime/getT1";
+import { DownloadTableExcel } from 'react-export-table-to-excel';
 
 
 export default function GetEmploi (){
@@ -14,23 +15,36 @@ export default function GetEmploi (){
         })
     },[groupeList])
 
+    
 
+    const tableRef = useRef(null);
+    
     return(
         <div className="container">
             <div className="row justify-content-center">
                 <center>
                     <form>
+
                         <select className="user-select w-50" onChange = {(e) => { setGroupeChoisis(e.target.value)}}>
                         {groupeList.map((g) =>(
                             <option key={g.codeGroupe} value={g.codeGroupe}> {g.codeGroupe} </option>
                         ))}
                         </select>
+                        <DownloadTableExcel
+                            filename="users table"
+                            sheet="users"
+                            currentTableRef={tableRef.current}
+                        >
+
+                            <button className="btn btn-success fa-solid fa-download mx-5">  </button>
+
+                        </DownloadTableExcel>
                     </form>
                 </center>
                 
             </div>
             <div className="row justify-content-center">
-            <table className="table table-bordered table-light" id="timeTable">
+            <table className="table table-light" id="timeTable" ref={tableRef}>
             
             <thead>
                 <tr>
