@@ -167,17 +167,21 @@ app.post('/api/insert/module',(req,res) => {
     const titreModule = req.body.titreModule
     const masseHoraire = req.body.masseHoraire
     const codeFiliere = req.body.codeFiliere
-    const codeGroupe = req.body.codeGroupe
-    console.log(codeGroupe)
+    const selectedGroupes = req.body.selectedGroupes
     const stmt = cnx.prepare("INSERT INTO module VALUES (?,?,?)",(err)=>{
         console.log(err)
     });
     stmt.run([codeModule,titreModule,masseHoraire])
+    const listG = groupes.split(",")
+    listG.forEach((groupe)=>{
+        console.log(groupe)
+        const stmt2 = cnx.prepare("INSERT INTO groupe_module_filiere VALUES (?,?,?)",(err)=>{
+            console.log(err)
+        });
+        stmt2.run([groupe,codeModule,codeFiliere])
 
-    const stmt2 = cnx.prepare("INSERT INTO groupe_module_filiere VALUES (?,?,?)",(err)=>{
-        console.log(err)
-    });
-    stmt2.run([codeGroupe,codeModule,codeFiliere])
+    })
+
 })
 
 app.get('/api/select/module/',(req,res) => {

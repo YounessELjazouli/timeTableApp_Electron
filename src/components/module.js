@@ -67,12 +67,19 @@ function  Modules(){
             document.getElementById('message').innerHTML = 'tous les champs sont obligatoire !!'
             return false;
         }else{
+            let groupesValue = document.querySelectorAll('#groupeM option')
+            let selectedGroupes = []
+            groupesValue.forEach((gv)=>{
+                if(gv.selected){
+                    selectedGroupes.push(gv.value)
+                }
+            })
         Axios.post("http://localhost:3001/api/insert/module",{
             codeModule: codeModule,
             titreModule: titreModule,
             masseHoraire: masseHoraire,
             codeFiliere:codeFiliere,
-            codeGroupe:codeGroupe
+            codeGroupe:selectedGroupes
         })
         setModulesList([...modulesList,{codeModule: codeModule,
             titreModule: titreModule,
