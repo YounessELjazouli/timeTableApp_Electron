@@ -12,15 +12,12 @@ export default function SetT1(props){
     const [ profValue , setProfValue ] = useState([])
     const [ moduleValue , setModuleValue ] = useState([])
     const [ modeCoursValue , setModeCoursValue] = useState([])
-    const [ idValue , setIdValue ] = useState()
     const groupe = props.groupe
     const day = props.jours
     const per = props.periods
-
     useEffect(()=>{
         Axios.get(`http://localhost:3001/api/select/cours/${groupe}/${day}/${per}`).then((response)=> {
             setL1Cours(response.data)
-                
         })
     })
 
@@ -46,16 +43,16 @@ export default function SetT1(props){
 
     const ajouterCours =  () => {
         Axios.post("http://localhost:3001/api/insert/cours",{
-            idValue : idValue,
             groupe : groupe,
             salleValue : salleValue,
             moduleValue : moduleValue,
             profValue : profValue,
             per : per,
             day : day,
-            modeCoursValue : modeCoursValue
+            modeCoursValue : modeCoursValue,
+            
         })
-        setL1Cours([...l1Cours,{idValue : idValue,
+        setL1Cours([...l1Cours,{
             groupe : groupe,
             salleValue : salleValue,
             moduleValue : moduleValue,
@@ -67,11 +64,13 @@ export default function SetT1(props){
 
     return(
         <div>
+            
+
            { l1Cours.map((c)=>(
-                <div>
-                    <h6>{c.nom} {c.prenom}</h6>
-                    <h5>{c.codeSalle}</h5>
-                    <h6>{c.titreModule}</h6>
+                <div key={c.idCours}>
+                    <p>{c.nom} {c.prenom}</p>
+                    <p>{c.codeSalle}</p>
+                    <p>{c.titreModule}</p>
                     
                 </div>
            ))}
@@ -81,9 +80,7 @@ export default function SetT1(props){
                 
                 <form method="POST" id="popUpEmploi">
                     <div className="select-wrapper">
-                        <input type="number" placeholder="cours ID" className="user-input" onChange={(e) => {
-                                    setIdValue(e.target.value)
-                                }}/>
+                        
                         <select className="user-select" aria-label="Default select example" id="salleF" required onChange={(e) => {
                                     setSalleValue(e.target.value)
                                 }}>
@@ -107,7 +104,7 @@ export default function SetT1(props){
                                 }}>
                             <option disabled selected>Choisir le module :</option>
                             {moduleChoisis.map((module) =>(
-                                <option key={module.codeModule} value={module.codeModule}> {module.titreModule} </option>
+                                <option key={module.idModule} value={module.idModule}> {module.titreModule} </option>
                             ))}
                         </select>
                         <select className="user-select" aria-label="Default select example" id="salleF" required onChange={(e) => {

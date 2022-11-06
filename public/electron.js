@@ -1,10 +1,11 @@
+require('v8-compile-cache')
 const electron = require('electron');
 
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
-const server = require("./app")
+const server = require("./../app")
 const path = require('path');
 const { windowsStore } = require('process');
 const url = require('url');
@@ -17,8 +18,8 @@ let mainWindow;
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1000,
+        height: 800,
         title: "Gestion des emploi de temps",
         webPreferences: {
             nodeIntegration: true,
@@ -64,3 +65,4 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+

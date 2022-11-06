@@ -24,7 +24,7 @@ function Salles(){
                 typeSalle: typeSalle
                 
             })
-            if(typeSalle = "atelier"){
+            if(typeSalle === "atelier"){
                 SetAtelierList([...atelierList,{codeSalle: codeSalle,
                     typeSalle: typeSalle}])
             }else{

@@ -24,31 +24,31 @@ export default function Home(url){
                 <div className="col-sm-12 col-md-12 col-lg-12">
                     <ul class="honeycomb">
                         <li class="honeycomb-cell" onClick={ () => {window.location.href = "/formateurs";}}>
-                            <img class="honeycomb-cell_img" src="images/formateur.jpg" />
+                            <img class="honeycomb-cell_img" alt="" src="images/formateur.jpg" />
                             <div class="honeycomb-cell_title">Formateurs / Formatrices</div>
                         </li>
                         <li class="honeycomb-cell" onClick={ () => {window.location.href = "/filieres";}}>
-                            <img class="honeycomb-cell_img" src="images/filieres.png" />
+                            <img class="honeycomb-cell_img" alt="" src="images/filieres.png" />
                             <div class="honeycomb-cell_title">Filiéres</div>
                         </li>
                         <li class="honeycomb-cell" onClick={ () => {window.location.href = "/groupes";}}>
-                            <img class="honeycomb-cell_img" src="images/groupes.jpg" />
+                            <img class="honeycomb-cell_img" alt="" src="images/groupes.jpg" />
                             <div class="honeycomb-cell_title">Groupes</div>
                         </li>
                         <li class="honeycomb-cell" onClick={ () => {window.location.href = "/modules";}}>
-                            <img class="honeycomb-cell_img" src="images/web.jpg" />
+                            <img class="honeycomb-cell_img" alt="" src="images/web.jpg" />
                             <div class="honeycomb-cell_title">Modules</div>
                         </li>
                         <li class="honeycomb-cell" onClick={ () => {window.location.href = "/sallesDisponible";}}>
-                            <img class="honeycomb-cell_img" src="images/salle.jpg" />
+                            <img class="honeycomb-cell_img" alt="" src="images/salle.jpg" />
                             <div class="honeycomb-cell_title">Salles</div>
                         </li>
                         <li class="honeycomb-cell" onClick={ () => {window.location.href = "/getEmploi";}}>
-                            <img class="honeycomb-cell_img" src="images/dispoSalle.jpg" />
+                            <img class="honeycomb-cell_img" alt="" src="images/dispoSalle.jpg" />
                             <div class="honeycomb-cell_title">Salles disponible</div>
                         </li>
                         <li class="honeycomb-cell" onClick={ () => {window.location.href = "/setEmploi";}}>
-                            <img class="honeycomb-cell_img" src="images/cours.jpg" />
+                            <img class="honeycomb-cell_img" alt="" src="images/cours.jpg" />
                             <div class="honeycomb-cell_title">Emloi de temps</div>
                         </li>
                         <li class="honeycomb-cell honeycomb_Hidden">

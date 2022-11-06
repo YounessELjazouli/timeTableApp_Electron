@@ -97,8 +97,8 @@ function  Modules(){
 
 
 
-    const deleteModule = (codeModule) => {
-        Axios.delete(`http://localhost:3001/api/delete/module/${codeModule}`)  
+    const deleteModule = (idModule) => {
+        Axios.delete(`http://localhost:3001/api/delete/module/${idModule}`)  
     }
     
     const filterNames = () => {
@@ -149,10 +149,10 @@ function  Modules(){
                                         setCodeFiliere(e.target.value)
                                         document.getElementById('groupeM').innerHTML = "";
                                         const FiltredGroupes =groupes.filter((groupe) => {
-                                            return groupe.codeFiliere==e.target.value }
+                                            return groupe.codeFiliere===e.target.value }
                                         )
                                     
-                                        
+                                        // eslint-disable-next-line
                                         {FiltredGroupes.map((g) =>(
                                             document.getElementById('groupeM').innerHTML +=
                                             `<option key=${g.codeGroupe} value=${g.codeGroupe}> ${g.codeGroupe} </option>`
@@ -217,11 +217,11 @@ function  Modules(){
                                 </thead>
                                 <tbody>
                                 {modulesList.map((module) =>(
-                                    <tr key={module.codeModule}>
+                                    <tr key={module.idModule}>
                                         <td> {module.codeModule} </td>
                                         <td> {module.titreModule} </td>
                                         <td> {module.masseHoraire} </td>
-                                        <td><i className='fa-solid fa-trash-can text-danger btn btn-danger text-light' onClick={() => deleteModule(module.codeModule)}></i></td>
+                                        <td><i className='fa-solid fa-trash-can text-danger btn btn-danger text-light' onClick={() => deleteModule(module.idModule)}></i></td>
                                         <td><i className='fa-solid fa-arrows-rotate btn btn-success text-light'></i></td>
                                     </tr>
                                 ))}
