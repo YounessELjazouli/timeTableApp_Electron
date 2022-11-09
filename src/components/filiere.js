@@ -46,7 +46,9 @@ function Filiere(){
 
     const deleteFiliere = (codeFiliere) => {
         Axios.delete(`http://localhost:3001/api/delete/filiere/${codeFiliere}`)
-        
+        Axios.get("http://localhost:3001/api/select/filiere").then((response)=> {
+            setFiliereList(response.data)
+        })
         
     }
     const filterNames = () => {

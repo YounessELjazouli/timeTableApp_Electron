@@ -498,3 +498,19 @@ td[id]{
 #timeTable,#timeTable th,#timeTable td {
   border: 1px solid black;
 }
+
+.pauseRow{
+  text-align: center;
+  vertical-align: middle;
+  font-size: 4em;
+  font-weight: 900;
+  
+}
+.pauseRowHead{
+  width: 5px !important;
+}
+.timeTableInfos p{
+  text-align: center;
+  font-weight: 900;
+  font-size: 1em;
+}

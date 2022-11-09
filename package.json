@@ -28,6 +28,7 @@
   "main": "public/electron.js",
   "scripts": {
     "start": "react-scripts start",
+    "devStart": "nodemon app.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -36,7 +37,8 @@
     "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=public/logo.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Gestion des emplois de temps \"",
     "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "postinstall": "electron-builder install-app-deps"
   },
   "eslintConfig": {
     "extends": [
@@ -62,6 +64,8 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.75",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.75",
     "@electron-forge/maker-zip": "^6.0.0-beta.75",
-    "electron": "^21.2.0"
+    "electron": "^21.2.0",
+    "electron-builder": "^23.6.0",
+    "nodemon": "^2.0.20"
   }
 }

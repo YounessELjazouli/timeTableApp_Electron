@@ -9,7 +9,7 @@ function  Modules(){
     const [ codeFiliere , setCodeFiliere] = useState('');
     const [ codeGroupe , setCodeGroupe] = useState([]);
     const [filieres ,  SetFilieres] = useState([])
-    const [groupes ,  setGroupes] = useState([])
+    const [groupes ,  setGroupes] = useState()
     const [modulesList ,  setModulesList] = useState([])
     const [FiliereChoisis,setFiliereChoisis] = useState("")
 
@@ -38,24 +38,6 @@ function  Modules(){
     },[])
 
 
-    const getModules  = () => {
-        
-        Axios.get(`http://localhost:3001/api/select/module/${FiliereChoisis}`).then((response)=> {
-            setModulesList(response.data)
-        })
-        document.getElementById('clearFilter').style.display = "inline";
-
-
-        
-    }
-    const getAllModules = () => {
-        Axios.get(`http://localhost:3001/api/select/module`).then((response)=> {
-            setModulesList(response.data)
-        })
-        document.getElementById('clearFilter').style.display = "none";
-    }
-
-
     const submitModule = () => {
         let codeM = document.getElementById('codeM').value
         let titreM = document.getElementById('titreM').value
@@ -67,38 +49,42 @@ function  Modules(){
             document.getElementById('message').innerHTML = 'tous les champs sont obligatoire !!'
             return false;
         }else{
-            let groupesValue = document.querySelectorAll('#groupeM option')
-            let selectedGroupes = []
-            groupesValue.forEach((gv)=>{
-                if(gv.selected){
-                    selectedGroupes.push(gv.value)
-                }
+           
+            Axios.post("http://localhost:3001/api/insert/module",{
+                codeModule: codeModule,
+                titreModule: titreModule,
+                masseHoraire: masseHoraire,
+                codeFiliere:codeFiliere,
+                codeGroupe:codeGroupe
+            }
+   
+                
+            ).then(()=>{
+                setTimeout(()=>{
+                    document.getElementById('message').innerHTML = ''
+                    document.getElementById('message').setAttribute('class','d-none')
+                },3000)
+                document.getElementById('message').setAttribute('class','d-block alert alert-success')
+                document.getElementById('message').innerHTML = 'Les données sont enregistré'
+            }).catch((error)=>{
+                document.getElementById('message').innerHTML = error
             })
-        Axios.post("http://localhost:3001/api/insert/module",{
-            codeModule: codeModule,
-            titreModule: titreModule,
-            masseHoraire: masseHoraire,
-            codeFiliere:codeFiliere,
-            codeGroupe:selectedGroupes
-        })
-        setModulesList([...modulesList,{codeModule: codeModule,
-            titreModule: titreModule,
-            masseHoraire: masseHoraire,
-            codeFiliere:codeFiliere,
-            codeGroupe:codeGroupe}])
-        }
-        setTimeout(()=>{
-            document.getElementById('message').innerHTML = ''
-            document.getElementById('message').setAttribute('class','d-none')
-        },3000)
-        document.getElementById('message').setAttribute('class','d-block alert alert-success')
-        document.getElementById('message').innerHTML = 'Les données sont enregistré'
+            setModulesList([...modulesList,{codeModule: codeModule,
+                titreModule: titreModule,
+                masseHoraire: masseHoraire,
+                codeFiliere:codeFiliere,
+                codeGroupe:codeGroupe}])
+            }
+
     }
 
 
 
     const deleteModule = (idModule) => {
         Axios.delete(`http://localhost:3001/api/delete/module/${idModule}`)  
+        Axios.get(`http://localhost:3001/api/select/module`).then((response)=> {
+            setModulesList(response.data)
+        })
     }
     
     const filterNames = () => {
@@ -120,6 +106,7 @@ function  Modules(){
             }
         }
     }
+    
     return(
             <div  className="container" id="content-add-module">
                 <div className="row">
@@ -168,8 +155,9 @@ function  Modules(){
                                     </select>
                                     </span>
                                     <span className="row justify-content-center">
-                                    <select className="user-select w-50 h-100  col-xl-5 col-lg-5 col-md-8 col-lg-10"  aria-label="Default select example" id="groupeM"  multiple size={4} onChange = {(e) => {
-                                        setCodeGroupe(e.target.value)
+                                    <select className="user-select w-50 h-100  col-xl-5 col-lg-5 col-md-8 col-lg-10"  aria-label="Default select example" id="groupeM"  multiple size={4} onChange = {(e)=>{
+                                        let value = Array.from(e.target.selectedOptions, option => option.value);
+                                        setCodeGroupe({values: value});
                                     }}>
                                         <option value="default" Selected disabled> Choisissez une groupe</option>
                                         
@@ -197,8 +185,7 @@ function  Modules(){
                                     
                                 
                                 </select>
-                                <i className="btn btn-dark text-light fa-solid fa-sort"  onClick={getModules}></i>
-                                <i className="btn btn-dark text-light fa-solid fa-sort-alpha-up mx-2" id="sortAZ" onClick={getAllModules}></i>
+
                                 <input type="text" id="myInput" onKeyUp={filterNames} placeholder="Tréer par l'intitulé de module.."  className="user-input"/>
 
                             </div>

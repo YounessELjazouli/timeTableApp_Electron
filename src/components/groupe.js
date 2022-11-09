@@ -56,7 +56,9 @@ function Groupes(){
 
     const deleteGroupe = (codeGroupe) => {
         Axios.delete(`http://localhost:3001/api/delete/groupe/${codeGroupe}`)
-        
+        Axios.get("http://localhost:3001/api/select/groupe").then((response)=> {
+            setGroupeList(response.data)
+        })
         
     }
     const filterNames = () => {

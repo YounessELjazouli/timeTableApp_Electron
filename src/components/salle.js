@@ -67,8 +67,18 @@ function Salles(){
  
     const deleteSalle = (codeSalle) => {
         Axios.delete(`http://localhost:3001/api/delete/salle/${codeSalle}`)
-        
-        
+        Axios.get("http://localhost:3001/api/select/atelier",{
+        }).then((response)=> {
+            SetAtelierList(response.data)
+        })
+        Axios.get("http://localhost:3001/api/select/normalSalles",{
+        }).then((response)=> {
+            setNormalSallesList(response.data)
+        })
+        Axios.get("http://localhost:3001/api/select/infoSalles",{
+        }).then((response)=> {
+            setInfoSallesList(response.data)
+        })
     }
 
 

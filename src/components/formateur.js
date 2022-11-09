@@ -61,7 +61,9 @@ function Formateurs(){
 
     const deleteFormateur = (idFormateur) => {
         Axios.delete(`http://localhost:3001/api/delete/formateur/${idFormateur}`)
-        
+        Axios.get("http://localhost:3001/api/select/formateurs").then((response)=> {
+            setFormateursList(response.data)
+        })
         
     }
     

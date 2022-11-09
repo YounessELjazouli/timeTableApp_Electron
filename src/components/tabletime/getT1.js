@@ -16,11 +16,12 @@ export default function GetT1(props){
 
     return(
         <div>
-           { l1Cours.map((c)=>(
-                <div>
-                    <h4>{c.nom} {c.prenom}</h4>
-                    <h5>{c.codeSalle}</h5>
-                    <h6>{c.titreModule}</h6>
+           {
+            l1Cours.map((c)=>(
+                <div className="timeTableInfos">
+                    <p>{c.nom} {c.prenom}</p>
+                    <p>{c.codeSalle}</p>
+                    <p>{c.titreModule}</p>
                 </div>
            ))}
         </div>

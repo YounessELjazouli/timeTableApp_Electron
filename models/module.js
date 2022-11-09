@@ -7,22 +7,25 @@ module.exports = {
                 const titreModule = req.body.titreModule
                 const masseHoraire = req.body.masseHoraire
                 const codeFiliere = req.body.codeFiliere
-                const selectedGroupes = req.body.selectedGroupes
+                const codeGroupe = req.body.codeGroupe
+                
+                
+
                 const stmt = cnx.prepare("INSERT INTO module VALUES (NULL,?,?,?)",(err)=>{
                     if (err) throw err;
                 });
                 stmt.run([codeModule,titreModule,masseHoraire])
-                const listG = selectedGroupes.split(",")
-                listG.forEach((groupe)=>{
-                    console.log(groupe)
+                
+                codeGroupe.values.forEach(element => {
                     const stmt2 = cnx.prepare("INSERT INTO groupe_module_filiere VALUES (?,?,?)",(err)=>{
                         if (err) throw err;
                     });
-                    stmt2.run([groupe,codeModule,codeFiliere])
+                    stmt2.run([element,codeModule,codeFiliere])
+                });
+                
             
-                })
             
-            }) 
+            })
         } catch (err) {
             console.log("Une erreur a occuré")
         }
@@ -44,7 +47,7 @@ module.exports = {
         try {
             app.get('/api/select/module/:FiliereChoisis',(req,res) => {
                 const FiliereChoisis = req.params.FiliereChoisis
-                cnx.all("SELECT * from module M inner join groupe_module_filiere GM ON M.idModule = GM.idModule WHERE codeFiliere = ?",[FiliereChoisis] ,(err, row) => {
+                cnx.all("SELECT codeModule , titreModule , masseHoraire from module M inner join groupe_module_filiere GM ON M.idModule = GM.idModule WHERE codeFiliere = ?",[FiliereChoisis] ,(err, row) => {
                     res.send(row)
                     if (err) throw err;
                 })

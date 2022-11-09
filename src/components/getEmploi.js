@@ -43,22 +43,23 @@ export default function GetEmploi (){
                 </center>
                 
             </div>
-            <div className="row justify-content-center">
-            <table className="table table-light" id="timeTable" ref={tableRef}>
+            <div className="row">
+            <table  id="timeTable" ref={tableRef}>
             
             <thead>
                 <tr>
-                    <td colSpan={4}>Année de formation : 2022-2023</td>
+                    <td colSpan={5}>Année de formation : 2022-2023</td>
                     <td>Niveau</td>
                 </tr>
                 <tr>
-                    <td colSpan={3}>groupe : {groupeChoisis}</td>
-                    <td colSpan={2}>Masse Horaire / Semaine : </td>
+                    <td colSpan={4}>groupe : {groupeChoisis}</td>
+                    <td colSpan={3}>Masse Horaire / Semaine : </td>
                 </tr>
                 <tr>
                     <th>  </th>
                     <th> <span className="start">08:30</span> <span className="end">10:50</span>  </th>
                     <th> <span className="start">11:10</span> <span className="end">13:15</span>  </th>
+                    <th> <center>13:15||13:30</center> </th>
                     <th> <span className="start">13:30</span> <span className="end">15:50</span>  </th>
                     <th> <span className="start">16:10</span> <span className="end">18:30</span>  </th>
                 </tr>
@@ -69,6 +70,7 @@ export default function GetEmploi (){
                     <td>Lundi</td>
                     <td id="l1"> <GetT1 groupe={groupeChoisis} jours="lundi" periods={1} /> </td>
                     <td id="l2"> <GetT1 groupe={groupeChoisis} jours="lundi" periods={2} /> </td>
+                    <td id="l2" rowSpan={6} className="pauseRow"> <p>P</p> <p>A</p> <p>U</p> <p>S</p> <p>E</p> </td>
                     <td id="l3"><GetT1 groupe={groupeChoisis} jours="lundi" periods={3} /></td>
                     <td id="l4"><GetT1 groupe={groupeChoisis} jours="lundi" periods={4} /></td>
                 </tr>
