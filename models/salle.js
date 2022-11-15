@@ -1,30 +1,22 @@
 module.exports = {
     salle : function(app,cnx){
 
-        try {
+       
             app.post('/api/insert/salle',(req,res) => {
                 const codeSalle = req.body.codeSalle
                 const typeSalle = req.body.typeSalle
-            
-                console.log(codeSalle)
-                const stmt = cnx.prepare("INSERT INTO salle VALUES (?,?)",(err)=>{
-                    if (err) throw err;
+                const stmt = cnx.run(`INSERT INTO salle VALUES (${codeSalle},${typeSalle})`,(err)=>{
+                    if (err) return console.error("Cette salle déja existe");
                 });
-                stmt.run([codeSalle,typeSalle])
-            
             })
-        } catch (err) {
-            console.log("Une erreur a occuré")
-        }
+        
 
 
         try {
             app.get('/api/select/infoSalles',(req,res) => {
 
-                cnx.all("SELECT * from salle where typeSalle = ?", ["info"] ,(err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+                const row = cnx.prepare("SELECT * from salle where typeSalle = 'info' ORDER BY codeSalle").all()
+                res.send(row);
             })
         } catch (error) {
             console.log("Une erreur a occuré")
@@ -32,11 +24,8 @@ module.exports = {
         
         try {
             app.get('/api/select/normalSalles',(req,res) => {
-
-                cnx.all("SELECT * from salle where typeSalle = ?", ["normale"] ,(err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+                const row = cnx.prepare("SELECT * from salle where typeSalle = 'normale' ORDER BY codeSalle").all()
+                res.send(row);
             })
         } catch (error) {
             console.log("Une erreur a occuré")
@@ -46,10 +35,8 @@ module.exports = {
         try {
             app.get('/api/select/atelier',(req,res) => {
     
-                cnx.all("SELECT * from salle where typeSalle = ?", ["atelier"] ,(err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+                const row = cnx.prepare("SELECT * from salle where typeSalle = 'atelier' ORDER BY codeSalle").all()
+                res.send(row);
             })
         } catch (error) {
             console.log("Une erreur a occuré")

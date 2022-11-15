@@ -2,30 +2,26 @@ module.exports = {
     filiere : function(app,cnx){
         try {
             app.get('/api/select/filiere',(req,res) => {
-        
-                cnx.all("SELECT * from filiere", (err, row) => {
-                    res.send(row);
-                    if (err) throw err;
-                })
+                const row = cnx.prepare("SELECT * from filiere ORDER BY nomFiliere").all()
+                res.send(row);
             })
         } catch (err) {
             console.log("Une erreur a occuré")
         }
         
         
-        try {
-            app.post('/api/insert/filiere',(req,res) => {
-                const codeFiliere = req.body.codeFiliere
-                const nomFiliere = req.body.nomFiliere
-                const stmt = cnx.prepare("INSERT INTO filiere VALUES (?,?)",(err)=>{
-                    if (err) throw err;
-                });
-                stmt.run([codeFiliere,nomFiliere])
+
+        app.post('/api/insert/filiere',(req,res) => {
+            const codeFiliere = req.body.codeFiliere
+            const nomFiliere = req.body.nomFiliere
+            cnx.run(`INSERT INTO filiere VALUES (?,?)`,[codeFiliere,nomFiliere],(err)=>{
+                if (err){
+                    res.send(`Filiére ${codeFiliere} déja existe`);
+                }
             
-            })
-        } catch (err) {
-            console.log("Une erreur a occuré")
-        }
+            });        
+        })
+
         
         try {
             app.delete('/api/delete/filiere/:codeFiliere',(req,res)=>{

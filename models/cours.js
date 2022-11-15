@@ -5,10 +5,9 @@ module.exports = {
                 const groupe = req.params.groupe
                 const day = req.params.day
                 const per = req.params.per
-                cnx.all("SELECT * from cours C INNER JOIN formateur F ON C.idFormateur = F.idFormateur INNER JOIN module M ON C.idModule = M.idModule WHERE codeGroupe = ? AND jours = ? AND periods = ?",[groupe,day,per] ,(err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+                
+                const row = cnx.prepare(`SELECT * from cours C INNER JOIN formateur F ON C.idFormateur = F.idFormateur INNER JOIN module M ON C.idModule = M.idModule WHERE codeGroupe = '${groupe}'  AND jours = '${day}' AND periods = '${per}'`).all()
+                res.send(row);
             })
         } catch (error) {
             console.log("Une erreur a occuré")
@@ -32,10 +31,9 @@ module.exports = {
             app.get('/api/select/coursSalles/:day/:per',(req,res) => {
                 const day = req.params.day
                 const per = req.params.per
-                cnx.all("SELECT * from salle WHERE codeSalle NOT IN (select codeSalle from cours WHERE jours = ? AND periods = ?)",[day,per] ,(err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+                
+                const row = cnx.prepare(`SELECT * from salle WHERE codeSalle NOT IN (select codeSalle from cours WHERE jours = '${day}' AND periods = '${per}')`).all()
+                res.send(row);
             })
         } catch (error) {
             console.log("Une erreur a occuré")
@@ -45,10 +43,8 @@ module.exports = {
             app.get('/api/select/coursFormateurs/:day/:per',(req,res) => {
                 const day = req.params.day
                 const per = req.params.per
-                cnx.all("SELECT * from formateur WHERE idFormateur NOT IN (select idFormateur from cours WHERE jours = ? AND periods = ?)",[day,per] ,(err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+                const row = cnx.prepare(`SELECT * from formateur WHERE idFormateur NOT IN (select idFormateur from cours WHERE jours = '${day}' AND periods = '${per}')`).all()
+                res.send(row);
             })
         } catch (error) {
             console.log("Une erreur a occuré")
@@ -57,33 +53,30 @@ module.exports = {
         try {
             app.get('/api/select/coursModules/:groupe',(req,res) => {
                 const groupe = req.params.groupe
-                cnx.all("SELECT * from module M inner join groupe_module_filiere GM ON M.idModule = GM.idModule WHERE codeGroupe = ?",[groupe] ,(err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+
+                const row = cnx.prepare(`SELECT * from module M inner join groupe_module_filiere GM ON M.idModule = GM.idModule WHERE codeGroupe = '${groupe}'`).all()
+                res.send(row);
+                
             })
         } catch (error) {
             console.log("Une erreur a occuré")
         }
         
         
-        try {
-            app.post('/api/insert/cours',(req,res) => {
-                const groupe = req.body.groupe
-                const salleValue = req.body.salleValue
-                const moduleValue = req.body.moduleValue
-                const profValue = req.body.profValue
-                const per = req.body.per
-                const day = req.body.day
-                const modeCoursValue = req.body.modeCoursValue
-                const stmt = cnx.prepare("INSERT INTO cours(codeGroupe,codeSalle,idModule,idFormateur,periods,jours,modeFormation) VALUES(?,?,?,?,?,?,?)",(err)=>{
-                    if (err) throw err;
-                })
-                stmt.run([groupe,salleValue,moduleValue,profValue,per,day,modeCoursValue])
+      
+        app.post('/api/insert/cours',(req,res) => {
+            const groupe = req.body.groupe
+            const salleValue = req.body.salleValue
+            const moduleValue = req.body.moduleValue
+            const profValue = req.body.profValue
+            const per = req.body.per
+            const day = req.body.day
+            const modeCoursValue = req.body.modeCoursValue
+            const stmt = cnx.run(`INSERT INTO cours(codeGroupe,codeSalle,idModule,idFormateur,periods,jours,modeFormation) VALUES(${groupe},${salleValue},${moduleValue},${profValue},${per},${day},${modeCoursValue})`,(err)=>{
+                if (err) return console.error("Impossible de planifier cette seance");
             })
-        } catch (error) {
-            console.log("Une erreur a occuré")
-        }
+        })
+        
     }
 }
 

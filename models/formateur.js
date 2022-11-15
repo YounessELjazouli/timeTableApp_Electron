@@ -4,34 +4,29 @@ module.exports = {
         try {
             app.get('/api/select/formateurs',(req,res) => {
 
-                cnx.all("SELECT * from formateur ORDER BY nom", (err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+                const row = cnx.prepare("SELECT * from formateur ORDER BY nom").all()
+                res.send(row);
+                  
             })
         } catch (err) {
             console.log("Une erreur a occuré")
         }
 
         
-        try {
-            app.post('/api/insert/formateur',(req,res) => {
-                const nom = req.body.nom
-                const prenom = req.body.prenom
-                const mh = req.body.massHoraire
-                const departement = req.body.departement
-                const email = req.body.email
-                const tel = req.body.tel
-            
-                const stmt = cnx.prepare("INSERT INTO formateur (nom,prenom,massHoraire,email,tel,departement) VALUES (?,?,?,?,?,?)",(err)=>{
-                    if (err) throw err;
-                });
-                stmt.run([nom,prenom,mh,email,tel,departement])
-            }) 
-        } catch (err) {
-            console.log("Une erreur a occuré")
-        }
+      
+        app.post('/api/insert/formateur',(req,res) => {
+            const nom = req.body.nom
+            const prenom = req.body.prenom
+            const mh = req.body.massHoraire
+            const departement = req.body.departement
+            const email = req.body.email
+            const tel = req.body.tel
         
+            const stmt = cnx.prepare(`INSERT INTO formateur (nom,prenom,massHoraire,email,tel,departement) VALUES (${nom},${prenom},${mh},${email},${tel},${departement})`,(err)=>{
+                if (err) return console.error("Error lors de l'ajout de ce formateur");
+            });
+        }) 
+    
 
         
         try {

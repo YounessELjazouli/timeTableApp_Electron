@@ -4,10 +4,14 @@ const cors = require('cors')
 const app = express();
 const path = require('path');
 
-const sqlite3 = require('sqlite3').verbose();
-const cnx = new sqlite3.Database('bd/emploi.db');
-app.use(express.static(path.join(__dirname, 'public')));
+// const sqlite3 = require('sqlite3').verbose();
+// const cnx = new sqlite3.Database('bd/emploi.db');
 
+const cnx = require('better-sqlite3')('bd/emploi.db');
+
+
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}))
@@ -33,3 +37,4 @@ dbCours.cours(app,cnx);
 
 
 app.listen(3001)
+

@@ -1,43 +1,36 @@
 module.exports = {
     module : function(app,cnx){
 
-        try {
-            app.post('/api/insert/module',(req,res) => {
-                const codeModule = req.body.codeModule
-                const titreModule = req.body.titreModule
-                const masseHoraire = req.body.masseHoraire
-                const codeFiliere = req.body.codeFiliere
-                const codeGroupe = req.body.codeGroupe
-                
-                
+        app.post('/api/insert/module',(req,res) => {
+            const codeModule = req.body.codeModule
+            const titreModule = req.body.titreModule
+            const masseHoraire = req.body.masseHoraire
+            const codeFiliere = req.body.codeFiliere
+            const codeGroupe = req.body.codeGroupe
+            
+            
 
-                const stmt = cnx.prepare("INSERT INTO module VALUES (NULL,?,?,?)",(err)=>{
-                    if (err) throw err;
-                });
-                stmt.run([codeModule,titreModule,masseHoraire])
-                
-                codeGroupe.values.forEach(element => {
-                    const stmt2 = cnx.prepare("INSERT INTO groupe_module_filiere VALUES (?,?,?)",(err)=>{
-                        if (err) throw err;
-                    });
-                    stmt2.run([element,codeModule,codeFiliere])
-                });
-                
+            const stmt = cnx.run(`INSERT INTO module VALUES (NULL,${codeModule},${titreModule},${masseHoraire})`,(err)=>{
+                if (err) return console.error("Error lors de l'ajout de ce module");
+            });
             
+            codeGroupe.values.forEach(element => {
+                const stmt2 = cnx.prepare(`INSERT INTO groupe_module_filiere VALUES (${element},${codeModule},${codeFiliere})`,(err)=>{
+                    if (err) return console.error("Module dupliqué");
+                });
+            });
             
-            })
-        } catch (err) {
-            console.log("Une erreur a occuré")
-        }
+        
+        
+        })
+       
 
 
 
         try {
             app.get('/api/select/module/',(req,res) => {  
-                cnx.all("SELECT * from module ",(err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+                const row = cnx.prepare("SELECT * from module ORDER BY titreModule").all()
+                res.send(row);
             })
         } catch (err) {
             console.log("Une erreur a occuré")

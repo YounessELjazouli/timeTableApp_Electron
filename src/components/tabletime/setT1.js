@@ -60,14 +60,14 @@ export default function SetT1(props){
             per : per,
             day : day,
             modeCoursValue : modeCoursValue}])
+    
     }
-
     return(
         <div>
             
 
            { l1Cours.map((c)=>(
-                <div key={c.idCours}>
+                <div key={c.idCours} id="detailsCours">
                     <p>{c.nom} {c.prenom}</p>
                     <p>{c.codeSalle}</p>
                     <p>{c.titreModule}</p>

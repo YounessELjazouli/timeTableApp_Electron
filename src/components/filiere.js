@@ -9,7 +9,7 @@ function Filiere(){
     const [ nomFiliere , SetNomFiliere ] = useState('');
 
     const [filiereList ,  setFiliereList] = useState([])
-
+    const [ errMsg , setErrMsg] = useState('')
 
 
     useEffect(()=>{
@@ -31,16 +31,11 @@ function Filiere(){
             Axios.post("http://localhost:3001/api/insert/filiere",{
                 codeFiliere: codeFiliere,
                 nomFiliere: nomFiliere
+            }).then((response)=>{
+                setErrMsg(response.data)
             })
-            
             setFiliereList([...filiereList,{codeFiliere: codeFiliere,
                 nomFiliere: nomFiliere}])
-            setTimeout(()=>{
-                document.getElementById('message').innerHTML = ''
-                document.getElementById('message').setAttribute('class','d-none')
-            },3000)
-            document.getElementById('message').setAttribute('class','d-block alert alert-success')
-            document.getElementById('message').innerHTML = 'Les données sont enregistré'
         }
     }
 

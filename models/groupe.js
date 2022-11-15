@@ -4,32 +4,23 @@ module.exports = {
         try {
             app.get('/api/select/groupe',(req,res) => {
 
-                cnx.all("SELECT * from groupe", (err, row) => {
-                    res.send(row)
-                    if (err) throw err;
-                })
+                const row = cnx.prepare("SELECT * from groupe ORDER BY codeGroupe").all()
+                res.send(row);
             })   
         } catch (err) {
             console.log("Une erreur a occuré")
         }
 
 
-        try {
-            app.post('/api/insert/groupe',(req,res) => {
-                const codeGroupe = req.body.codeGroupe
-                const codeFiliere = req.body.codeFiliere
-                const annee = req.body.annee
-                const stmt = cnx.prepare("INSERT INTO groupe VALUES (?,?,?)",(err)=>{
-                    if (err) throw err;
-                });
-                stmt.run([codeGroupe,codeFiliere,annee])
-    
-            })
-        } catch (err) {
-            console.log("Une erreur a occuré")
-        }
-
-
+        app.post('/api/insert/groupe',(req,res) => {
+            const codeGroupe = req.body.codeGroupe
+            const codeFiliere = req.body.codeFiliere
+            const annee = req.body.annee
+            const stmt = cnx.prepare(`INSERT INTO groupe VALUES (${codeGroupe},${codeFiliere},${annee})`,(err)=>{
+                if (err) return console.error("Ce groupe déja existe");
+            });    
+        })
+        
 
 
         try {
